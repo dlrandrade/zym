@@ -63,6 +63,7 @@ export async function POST(request: Request) {
     password: parsed.data.password,
     options: {
       data: { name: parsed.data.name },
+      emailRedirectTo: new URL("/api/auth/callback", request.url).toString(),
     },
   });
 
