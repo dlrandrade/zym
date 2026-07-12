@@ -991,6 +991,80 @@ function DayCard({ day, data, onStart }: { day: RoutineDay; data: BootstrapData;
   );
 }
 
+function muscleKey(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function MuscleMap({ values }: { values: Map<string, number> }) {
+  const normalized = new Map(Array.from(values.entries()).map(([name, value]) => [muscleKey(name), value]));
+  const maximum = Math.max(1, ...normalized.values());
+  const opacity = (name: string) => {
+    const value = normalized.get(muscleKey(name)) ?? 0;
+    return value ? 0.34 + (value / maximum) * 0.66 : 0.08;
+  };
+  const muscleStyle = (name: string) => ({ opacity: opacity(name) });
+
+  return (
+    <div className="muscle-map" aria-label="Mapa dos músculos treinados">
+      <div className="muscle-figure">
+        <span>Frente</span>
+        <svg viewBox="0 0 180 340" role="img" aria-label="Vista frontal do corpo">
+          <g className="body-base">
+            <circle cx="90" cy="28" r="21" />
+            <path d="M69 52 Q90 42 111 52 L124 119 Q113 146 108 174 L72 174 Q67 146 56 119Z" />
+            <path d="M58 62 Q42 70 34 111 L24 174 Q29 181 38 176 L55 123 L70 77Z" />
+            <path d="M122 62 Q138 70 146 111 L156 174 Q151 181 142 176 L125 123 L110 77Z" />
+            <path d="M73 171 L50 259 L58 329 Q67 334 73 325 L89 224 L90 176Z" />
+            <path d="M107 171 L130 259 L122 329 Q113 334 107 325 L91 224 L90 176Z" />
+          </g>
+          <g className="muscle-fill">
+            <ellipse style={muscleStyle("Peitoral")} cx="76" cy="87" rx="18" ry="22" />
+            <ellipse style={muscleStyle("Peitoral")} cx="104" cy="87" rx="18" ry="22" />
+            <ellipse style={muscleStyle("Ombros")} cx="52" cy="76" rx="13" ry="18" />
+            <ellipse style={muscleStyle("Ombros")} cx="128" cy="76" rx="13" ry="18" />
+            <path style={muscleStyle("Bíceps")} d="M41 91 Q52 89 56 101 L48 134 Q40 138 35 129Z" />
+            <path style={muscleStyle("Bíceps")} d="M139 91 Q128 89 124 101 L132 134 Q140 138 145 129Z" />
+            <path style={muscleStyle("Antebraços")} d="M34 132 L47 137 L37 175 Q28 179 25 171Z" />
+            <path style={muscleStyle("Antebraços")} d="M146 132 L133 137 L143 175 Q152 179 155 171Z" />
+            <path style={muscleStyle("Core")} d="M72 110 Q90 118 108 110 L106 165 Q90 174 74 165Z" />
+            <path style={muscleStyle("Quadríceps")} d="M72 178 Q84 175 88 184 L78 252 Q65 260 54 252Z" />
+            <path style={muscleStyle("Quadríceps")} d="M108 178 Q96 175 92 184 L102 252 Q115 260 126 252Z" />
+            <path style={muscleStyle("Panturrilhas")} d="M55 263 Q68 255 77 267 L69 321 Q61 332 56 321Z" />
+            <path style={muscleStyle("Panturrilhas")} d="M125 263 Q112 255 103 267 L111 321 Q119 332 124 321Z" />
+          </g>
+        </svg>
+      </div>
+      <div className="muscle-figure">
+        <span>Costas</span>
+        <svg viewBox="0 0 180 340" role="img" aria-label="Vista posterior do corpo">
+          <g className="body-base">
+            <circle cx="90" cy="28" r="21" />
+            <path d="M69 52 Q90 42 111 52 L124 119 Q113 146 108 174 L72 174 Q67 146 56 119Z" />
+            <path d="M58 62 Q42 70 34 111 L24 174 Q29 181 38 176 L55 123 L70 77Z" />
+            <path d="M122 62 Q138 70 146 111 L156 174 Q151 181 142 176 L125 123 L110 77Z" />
+            <path d="M73 171 L50 259 L58 329 Q67 334 73 325 L89 224 L90 176Z" />
+            <path d="M107 171 L130 259 L122 329 Q113 334 107 325 L91 224 L90 176Z" />
+          </g>
+          <g className="muscle-fill">
+            <ellipse style={muscleStyle("Ombros")} cx="52" cy="76" rx="13" ry="18" />
+            <ellipse style={muscleStyle("Ombros")} cx="128" cy="76" rx="13" ry="18" />
+            <path style={muscleStyle("Costas")} d="M65 61 Q90 48 115 61 L119 115 Q106 135 90 142 Q74 135 61 115Z" />
+            <path style={muscleStyle("Tríceps")} d="M40 90 Q51 88 56 101 L48 136 Q39 139 34 130Z" />
+            <path style={muscleStyle("Tríceps")} d="M140 90 Q129 88 124 101 L132 136 Q141 139 146 130Z" />
+            <path style={muscleStyle("Lombar")} d="M72 126 Q90 140 108 126 L106 167 Q90 175 74 167Z" />
+            <ellipse style={muscleStyle("Glúteos")} cx="76" cy="187" rx="20" ry="23" />
+            <ellipse style={muscleStyle("Glúteos")} cx="104" cy="187" rx="20" ry="23" />
+            <path style={muscleStyle("Posterior")} d="M55 208 Q72 201 87 212 L78 258 Q65 264 53 254Z" />
+            <path style={muscleStyle("Posterior")} d="M125 208 Q108 201 93 212 L102 258 Q115 264 127 254Z" />
+            <path style={muscleStyle("Panturrilhas")} d="M55 263 Q68 255 77 267 L69 321 Q61 332 56 321Z" />
+            <path style={muscleStyle("Panturrilhas")} d="M125 263 Q112 255 103 267 L111 321 Q119 332 124 321Z" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 function ProgressScreen({ data, onExercise }: { data: BootstrapData; onExercise: (exercise: Exercise) => void }) {
   const [range, setRange] = useState<"30" | "90" | "all">("90");
   const anchor = Math.max(0, ...data.workouts.map((workout) => new Date(workout.startedAt).getTime()));
@@ -1013,6 +1087,9 @@ function ProgressScreen({ data, onExercise }: { data: BootstrapData; onExercise:
     if (!exercise) return;
     const volume = workoutExercise.sets.filter((set) => set.completed).reduce((sum, set) => sum + set.weight * set.reps, 0);
     muscleVolume.set(exercise.primaryMuscle, (muscleVolume.get(exercise.primaryMuscle) ?? 0) + volume);
+    exercise.secondaryMuscles.forEach((muscle) => {
+      muscleVolume.set(muscle, (muscleVolume.get(muscle) ?? 0) + volume * 0.35);
+    });
   }));
   const muscleRows = Array.from(muscleVolume.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const maxMuscle = Math.max(1, ...muscleRows.map((row) => row[1]));
@@ -1049,11 +1126,14 @@ function ProgressScreen({ data, onExercise }: { data: BootstrapData; onExercise:
       </section>
 
       <section className="section-block muscle-section">
-        <div className="section-heading"><div><span>DISTRIBUIÇÃO</span><h2>Grupos trabalhados</h2></div></div>
-        <div className="muscle-list">
-          {muscleRows.length ? muscleRows.map(([muscle, value], index) => (
-            <div key={muscle}><div className="muscle-label"><span>{muscle}</span><strong>{Math.round(value).toLocaleString("pt-BR")} kg</strong></div><div className="muscle-bar"><i style={{ width: `${Math.max(8, value / maxMuscle * 100)}%`, opacity: 1 - index * 0.12 }} /></div></div>
-          )) : <p className="empty-copy">Os grupos aparecem depois do primeiro treino concluído.</p>}
+        <div className="section-heading"><div><span>MAPA MUSCULAR</span><h2>Músculos treinados</h2></div><small>{workouts.length ? `${workouts.length} sessões` : "Sem dados"}</small></div>
+        <div className="muscle-map-card">
+          <MuscleMap values={muscleVolume} />
+          <div className="muscle-list">
+            {muscleRows.length ? muscleRows.map(([muscle, value], index) => (
+              <div key={muscle}><div className="muscle-label"><span>{muscle}</span><strong>{Math.round(value).toLocaleString("pt-BR")} kg</strong></div><div className="muscle-bar"><i style={{ width: `${Math.max(8, value / maxMuscle * 100)}%`, opacity: 1 - index * 0.12 }} /></div></div>
+            )) : <p className="empty-copy">Conclua um treino para iluminar os músculos trabalhados.</p>}
+          </div>
         </div>
       </section>
 
