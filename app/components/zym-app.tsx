@@ -206,7 +206,9 @@ function draftFromDay(
     id: workoutId,
     name: `${name} · ${day.name}`,
     routineId: routineId ?? null,
-    routineDayId: day.id,
+    // Template days live in template_days. Only user-created routines have ids
+    // that are valid for the workouts.routine_day_id foreign key.
+    routineDayId: routineId ? day.id : null,
     startedAt: new Date().toISOString(),
     durationSeconds: 0,
     exercises: day.exercises.map((routineExercise, exerciseIndex) => {
@@ -305,9 +307,10 @@ export function ZymApp() {
         setActiveWorkout(draft);
         setTab("workouts");
         setSyncState("saved");
-      } catch {
+      } catch (error) {
         setSyncState("error");
-        setToast("O treino não foi iniciado porque ainda não pôde ser salvo.");
+        const detail = error instanceof Error ? error.message : "";
+        setToast(detail ? `Não foi possível iniciar o treino: ${detail}` : "Não foi possível iniciar o treino agora.");
       }
     },
     [data],

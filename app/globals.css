@@ -384,8 +384,8 @@ svg {
 .workout-meta-row svg { color: var(--lime); }
 
 .exercise-preview-list { display: flex; min-width: 0; align-items: center; gap: 7px; margin-bottom: 18px; }
-.exercise-preview-list > span { display: flex; min-width: 0; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid var(--line-soft); border-radius: 10px; background: rgba(255,255,255,.03); color: var(--lime); font: 600 9px "Geist Mono", monospace; }
-.exercise-preview-list strong { overflow: hidden; max-width: 85px; color: #bfc0b8; font-family: "Geist", sans-serif; font-size: 10px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.exercise-preview-list > span { display: flex; min-width: 0; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid var(--line-soft); border-radius: 10px; background: rgba(255,255,255,.03); color: var(--lime); font: 600 9px var(--font-mono); }
+.exercise-preview-list strong { overflow: hidden; max-width: 85px; color: #bfc0b8; font-family: "Inter Variable", "Inter", sans-serif; font-size: 10px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
 .exercise-preview-list .more-count { color: #a2a49a; }
 
 .start-workout-button,
@@ -420,7 +420,7 @@ svg {
 .metric-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 8px; }
 .metric-card { position: relative; min-width: 0; min-height: 132px; padding: 14px; overflow: hidden; border: 1px solid var(--line-soft); border-radius: 19px; background: var(--surface); }
 .metric-card > span { display: block; margin: 10px 0 2px; color: var(--muted); font-size: 9px; }
-.metric-card > strong { display: block; overflow: hidden; font: 650 clamp(20px, 5vw, 28px) "Geist Mono", monospace; letter-spacing: -.06em; white-space: nowrap; }
+.metric-card > strong { display: block; overflow: hidden; font: 650 clamp(20px, 5vw, 28px) var(--font-mono); letter-spacing: -.06em; white-space: nowrap; }
 .metric-card > strong small { color: var(--muted); font-size: 10px; font-weight: 500; letter-spacing: 0; }
 .metric-icon { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 9px; background: rgba(255,255,255,.05); color: var(--muted); }
 .metric-icon svg { width: 14px; height: 14px; }
@@ -442,7 +442,7 @@ svg {
 
 .last-workout { margin-top: 28px; padding: 17px; border: 1px solid var(--line-soft); border-radius: 20px; background: rgba(255,255,255,.025); }
 .last-workout .section-heading { margin-bottom: 12px; }
-.last-workout-row { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font: 500 10px "Geist Mono", monospace; }
+.last-workout-row { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font: 500 10px var(--font-mono); }
 .last-workout-row span { display: flex; align-items: center; gap: 5px; padding: 6px 8px; border-radius: 8px; background: rgba(255,255,255,.035); }
 .last-workout-row svg { color: var(--lime); }
 
@@ -515,7 +515,7 @@ svg {
 .template-card::before { position: absolute; right: -35px; bottom: -70px; width: 180px; height: 180px; border: 1px solid rgba(223,255,55,.12); border-radius: 50%; box-shadow: 0 0 0 28px rgba(223,255,55,.025), 0 0 0 55px rgba(223,255,55,.018); content: ""; }
 .template-card-head { position: relative; z-index: 1; display: flex; align-items: flex-start; justify-content: space-between; }
 .template-card-head > span { padding: 5px 7px; border-radius: 7px; background: var(--lime); color: #090a06; font-size: 8px; font-weight: 900; letter-spacing: .12em; }
-.template-number { color: rgba(255,255,255,.09); font: 800 44px/1 "Geist Mono", monospace; letter-spacing: -.1em; }
+.template-number { color: rgba(255,255,255,.09); font: 800 44px/1 var(--font-mono); letter-spacing: -.1em; }
 .template-card h3 { position: relative; z-index: 1; margin: 27px 0 8px; font-size: 27px; font-weight: 620; letter-spacing: -.055em; }
 .template-card p { position: relative; z-index: 1; max-width: 240px; min-height: 45px; margin: 0; color: #989a91; font-size: 10px; line-height: 1.5; }
 .template-stats { position: relative; z-index: 1; display: flex; gap: 12px; margin: 19px 0 12px; color: #b5b7ae; font-size: 9px; }
@@ -558,10 +558,10 @@ svg {
 .day-card.open .day-card-header > svg { transform: rotate(180deg); }
 .day-exercises { padding: 0 14px 14px; border-top: 1px solid var(--line-soft); }
 .day-exercises > div { display: grid; grid-template-columns: 24px 1fr; gap: 9px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.045); }
-.day-exercises > div > span { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 7px; background: rgba(223,255,55,.08); color: var(--lime); font: 600 8px "Geist Mono", monospace; }
+.day-exercises > div > span { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 7px; background: rgba(223,255,55,.08); color: var(--lime); font: 600 8px var(--font-mono); }
 .day-exercises strong, .day-exercises small { display: block; }
 .day-exercises strong { font-size: 11px; }
-.day-exercises small { margin-top: 3px; color: var(--muted); font: 500 9px "Geist Mono", monospace; }
+.day-exercises small { margin-top: 3px; color: var(--muted); font: 500 9px var(--font-mono); }
 .start-day-button { display: flex; width: 100%; align-items: center; justify-content: center; gap: 7px; margin-top: 13px; padding: 11px; border-radius: 11px; background: var(--lime); color: #090a06; font-size: 10px; font-weight: 750; }
 .sticky-sheet-action { position: sticky; z-index: 3; bottom: calc(-24px - var(--safe-bottom)); margin: 18px -20px calc(-24px - var(--safe-bottom)); padding: 14px 20px calc(17px + var(--safe-bottom)); border-top: 1px solid rgba(255,255,255,.08); background: rgba(12,13,11,.94); backdrop-filter: blur(18px); }
 
@@ -572,41 +572,41 @@ svg {
 .progress-hero { padding: 18px 14px 6px; border: 1px solid var(--line-soft); border-radius: 24px; background: linear-gradient(145deg, rgba(223,255,55,.065), var(--surface) 50%); }
 .progress-hero-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 0 4px; }
 .progress-hero-head span { display: block; color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .14em; }
-.progress-hero-head strong { display: block; margin-top: 5px; font: 650 clamp(28px, 8vw, 42px) "Geist Mono", monospace; letter-spacing: -.07em; }
+.progress-hero-head strong { display: block; margin-top: 5px; font: 650 clamp(28px, 8vw, 42px) var(--font-mono); letter-spacing: -.07em; }
 .progress-hero-head strong small { color: var(--muted); font-size: 13px; }
 .trend-badge { display: flex; align-items: center; gap: 5px; padding: 6px 8px; border-radius: 999px; background: rgba(223,255,55,.09); color: var(--lime); font-size: 8px; }
 .chart-wrap { height: 228px; margin-top: 12px; }
 .chart-tooltip { padding: 8px 10px; border: 1px solid rgba(223,255,55,.18); border-radius: 10px; background: rgba(10,11,9,.95); box-shadow: 0 12px 30px rgba(0,0,0,.35); }
 .chart-tooltip span { display: block; color: var(--muted); font-size: 8px; }
-.chart-tooltip strong { display: block; margin-top: 2px; font: 650 11px "Geist Mono", monospace; }
+.chart-tooltip strong { display: block; margin-top: 2px; font: 650 11px var(--font-mono); }
 .chart-empty { display: flex; height: 100%; flex-direction: column; align-items: center; justify-content: center; gap: 9px; color: var(--muted); font-size: 10px; }
 .chart-empty svg { width: 28px; height: 28px; color: var(--lime); }
 .progress-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 9px; }
 .progress-metrics article { min-width: 0; padding: 13px; border: 1px solid var(--line-soft); border-radius: 16px; background: var(--surface); }
 .progress-metrics article > div { display: grid; width: 25px; height: 25px; place-items: center; border-radius: 8px; background: rgba(255,255,255,.05); color: var(--lime); }
 .progress-metrics article > span { display: block; margin: 9px 0 3px; color: var(--muted); font-size: 8px; }
-.progress-metrics article > strong { display: block; overflow: hidden; font: 650 clamp(14px, 4vw, 20px) "Geist Mono", monospace; text-overflow: ellipsis; white-space: nowrap; }
+.progress-metrics article > strong { display: block; overflow: hidden; font: 650 clamp(14px, 4vw, 20px) var(--font-mono); text-overflow: ellipsis; white-space: nowrap; }
 .progress-metrics article > strong small { color: var(--muted); font-size: 8px; }
 .muscle-list { display: grid; gap: 14px; padding: 17px; border: 1px solid var(--line-soft); border-radius: 20px; background: var(--surface); }
 .muscle-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .muscle-label span { font-size: 10px; }
-.muscle-label strong { color: var(--muted); font: 500 8px "Geist Mono", monospace; }
+.muscle-label strong { color: var(--muted); font: 500 8px var(--font-mono); }
 .muscle-bar { height: 5px; overflow: hidden; border-radius: 99px; background: #2c2d28; }
 .muscle-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--lime), #9acb1e); }
 .empty-copy { margin: 0; color: var(--muted); font-size: 10px; }
 .pr-list { display: grid; gap: 6px; }
 .pr-list button { display: grid; width: 100%; grid-template-columns: 30px 1fr auto auto; align-items: center; gap: 9px; padding: 12px; text-align: left; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--surface); }
-.pr-rank { color: var(--muted-2); font: 650 10px "Geist Mono", monospace; }
+.pr-rank { color: var(--muted-2); font: 650 10px var(--font-mono); }
 .pr-list strong, .pr-list small { display: block; }
 .pr-list strong { font-size: 11px; }
 .pr-list small { margin-top: 3px; color: var(--muted); font-size: 8px; }
-.pr-list b { color: var(--lime); font: 650 15px "Geist Mono", monospace; }
+.pr-list b { color: var(--lime); font: 650 15px var(--font-mono); }
 .pr-list b small { display: inline; font-size: 8px; }
 .pr-list > button > svg { color: var(--muted); }
 
 /* Profile */
 .profile-hero-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 13px; padding: 16px; border: 1px solid rgba(223,255,55,.14); border-radius: 22px; background: linear-gradient(120deg, rgba(223,255,55,.08), var(--surface)); }
-.profile-avatar { position: relative; display: grid; width: 55px; height: 55px; place-items: center; border: 1px solid rgba(223,255,55,.25); border-radius: 18px; background: #24271b; color: var(--lime); font: 750 16px "Geist Mono", monospace; }
+.profile-avatar { position: relative; display: grid; width: 55px; height: 55px; place-items: center; border: 1px solid rgba(223,255,55,.25); border-radius: 18px; background: #24271b; color: var(--lime); font: 750 16px var(--font-mono); }
 .profile-avatar span { position: absolute; right: -2px; bottom: -2px; width: 13px; height: 13px; border: 3px solid var(--surface); border-radius: 50%; background: #50e680; }
 .profile-hero-card > div:nth-child(2) { min-width: 0; }
 .profile-hero-card > div:nth-child(2) > span { color: var(--lime); font-size: 8px; font-weight: 850; letter-spacing: .12em; }
@@ -660,7 +660,7 @@ svg {
 .install-preview > strong { font-size: 11px; }
 .install-steps { display: grid; gap: 8px; }
 .install-steps > div { display: grid; grid-template-columns: 29px 1fr auto; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--line-soft); border-radius: 15px; background: var(--surface); }
-.install-steps > div > span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 9px; background: var(--lime); color: #080905; font: 800 10px "Geist Mono", monospace; }
+.install-steps > div > span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 9px; background: var(--lime); color: #080905; font: 800 10px var(--font-mono); }
 .install-steps strong, .install-steps p { display: block; margin: 0; }
 .install-steps strong { font-size: 10px; }
 .install-steps p { margin-top: 3px; color: var(--muted); font-size: 8px; line-height: 1.45; }
@@ -734,7 +734,7 @@ svg {
 .day-selector { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .day-selector button { min-width: 0; padding: 15px 4px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface); }
 .day-selector strong, .day-selector span { display: block; }
-.day-selector strong { font: 650 21px "Geist Mono", monospace; }
+.day-selector strong { font: 650 21px var(--font-mono); }
 .day-selector span { margin-top: 3px; color: var(--muted); font-size: 8px; }
 .day-selector button.selected { border-color: var(--lime); background: var(--lime); color: #080905; }
 .day-selector button.selected span { color: #394014; }
@@ -831,7 +831,7 @@ svg {
 .demo-weight-right { right: 2px; }
 .demo-path { position: absolute; top: 56px; right: 28%; display: flex; flex-direction: column; gap: 7px; opacity: .45; }
 .demo-path span { width: 4px; height: 4px; border-radius: 50%; background: var(--lime); }
-.demo-badge { position: absolute; top: 14px; left: 14px; padding: 5px 7px; border: 1px solid rgba(223,255,55,.25); border-radius: 7px; color: var(--lime); font: 800 7px "Geist Mono", monospace; letter-spacing: .12em; }
+.demo-badge { position: absolute; top: 14px; left: 14px; padding: 5px 7px; border: 1px solid rgba(223,255,55,.25); border-radius: 7px; color: var(--lime); font: 800 7px var(--font-mono); letter-spacing: .12em; }
 .demo-copy { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 5px; padding: 11px; border-top: 1px solid var(--line-soft); }
 .demo-copy span, .demo-copy strong { display: grid; min-height: 38px; place-items: center; padding: 7px; text-align: center; border-radius: 9px; background: rgba(255,255,255,.03); color: var(--muted); font-size: 7px; line-height: 1.3; }
 .demo-copy strong { background: rgba(223,255,55,.09); color: var(--lime-soft); font-weight: 650; }
@@ -863,7 +863,7 @@ svg {
 .instruction-section h3, .tips-section h3 { margin: 0 0 10px; font-size: 14px; }
 .instruction-section ol { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .instruction-section li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 11px; border: 1px solid var(--line-soft); border-radius: 13px; background: var(--surface); }
-.instruction-section li > span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 8px; background: rgba(223,255,55,.09); color: var(--lime); font: 650 8px "Geist Mono", monospace; }
+.instruction-section li > span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 8px; background: rgba(223,255,55,.09); color: var(--lime); font: 650 8px var(--font-mono); }
 .instruction-section li p, .tips-section p { margin: 0; color: #bec0b6; font-size: 9px; line-height: 1.55; }
 .tips-section > div { display: flex; gap: 8px; margin-bottom: 7px; padding: 9px 10px; border-radius: 11px; background: rgba(255,255,255,.025); }
 .tips-section svg { flex: 0 0 auto; color: var(--lime); }
@@ -889,14 +889,14 @@ svg {
 .builder-exercises { display: grid; gap: 8px; margin-top: 13px; }
 .builder-exercises article { overflow: hidden; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--surface); }
 .builder-exercises article > header { display: grid; grid-template-columns: 25px 1fr auto; align-items: center; gap: 8px; padding: 10px; }
-.builder-exercises article > header > span { color: var(--muted); font: 650 8px "Geist Mono", monospace; }
+.builder-exercises article > header > span { color: var(--muted); font: 650 8px var(--font-mono); }
 .builder-exercises article > header strong, .builder-exercises article > header small { display: block; }
 .builder-exercises article > header strong { font-size: 10px; }
 .builder-exercises article > header small { margin-top: 2px; color: var(--muted); font-size: 7px; }
 .builder-exercises article > header button { display: grid; place-items: center; color: var(--muted); }
 .builder-set-controls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; padding: 9px; border-top: 1px solid var(--line-soft); }
 .builder-set-controls label > span { margin-left: 0; font-size: 6px; }
-.builder-set-controls input { min-height: 36px; padding: 0 6px; text-align: center; font: 650 10px "Geist Mono", monospace; }
+.builder-set-controls input { min-height: 36px; padding: 0 6px; text-align: center; font: 650 10px var(--font-mono); }
 .builder-empty { display: flex; min-height: 120px; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); }
 .builder-empty svg { width: 25px; height: 25px; margin-bottom: 8px; color: var(--muted-2); }
 .builder-empty strong { color: #bbbdb3; font-size: 10px; }
@@ -915,7 +915,7 @@ svg {
 .workout-logger { min-height: 100dvh; padding-bottom: calc(28px + var(--safe-bottom)); background: #070806; color: var(--text); }
 .logger-header { position: sticky; z-index: 90; top: 0; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; min-height: calc(67px + var(--safe-top)); padding: calc(12px + var(--safe-top)) 14px 10px; border-bottom: 1px solid var(--line-soft); background: rgba(7,8,6,.91); backdrop-filter: blur(20px); }
 .logger-header > div { min-width: 0; text-align: center; }
-.logger-header > div > span { display: block; font: 650 12px "Geist Mono", monospace; }
+.logger-header > div > span { display: block; font: 650 12px var(--font-mono); }
 .sync-label { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; color: var(--muted); font-size: 7px; }
 .sync-label svg { width: 9px; height: 9px; }
 .sync-label.saved { color: #75d590; }
@@ -926,13 +926,13 @@ svg {
 .logger-summary > div:first-child > strong { display: block; margin-top: 4px; font-size: clamp(22px, 6vw, 30px); font-weight: 620; letter-spacing: -.05em; }
 .live-metrics { display: flex; gap: 7px; margin-top: 13px; }
 .live-metrics span { display: flex; align-items: baseline; gap: 3px; padding: 7px 9px; border: 1px solid var(--line-soft); border-radius: 9px; color: var(--muted); font-size: 7px; }
-.live-metrics strong { color: var(--text); font: 650 10px "Geist Mono", monospace; }
+.live-metrics strong { color: var(--text); font: 650 10px var(--font-mono); }
 .rest-timer-bar { position: sticky; z-index: 70; top: calc(67px + var(--safe-top)); display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(223,255,55,.18); background: rgba(24,28,13,.96); box-shadow: 0 8px 28px rgba(0,0,0,.25); backdrop-filter: blur(18px); }
 .rest-ring { display: grid; width: 47px; height: 47px; place-items: center; border-radius: 50%; }
-.rest-ring span { display: grid; width: 39px; height: 39px; place-items: center; border-radius: 50%; background: #171910; color: var(--lime); font: 700 9px "Geist Mono", monospace; }
+.rest-ring span { display: grid; width: 39px; height: 39px; place-items: center; border-radius: 50%; background: #171910; color: var(--lime); font: 700 9px var(--font-mono); }
 .rest-timer-bar > div > span { display: block; color: var(--lime); font-size: 7px; font-weight: 850; letter-spacing: .15em; }
 .rest-timer-bar > div > strong { display: block; margin-top: 3px; overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
-.rest-timer-bar > button:nth-of-type(2) { padding: 7px 8px; border: 1px solid rgba(223,255,55,.22); border-radius: 8px; color: var(--lime); font: 650 8px "Geist Mono", monospace; }
+.rest-timer-bar > button:nth-of-type(2) { padding: 7px 8px; border: 1px solid rgba(223,255,55,.22); border-radius: 8px; color: var(--lime); font: 650 8px var(--font-mono); }
 .timer-close { display: grid; place-items: center; color: var(--muted); }
 .logger-exercises { display: grid; gap: 11px; width: min(100%, 760px); margin: 0 auto; padding: 12px; }
 .logger-exercise { overflow: hidden; border: 1px solid var(--line-soft); border-radius: 21px; background: var(--surface); }
@@ -949,14 +949,14 @@ svg {
 .set-table-head { min-height: 34px; color: var(--muted); font-size: 7px; font-weight: 750; letter-spacing: .08em; text-align: center; }
 .set-row { min-height: 51px; border-top: 1px solid rgba(255,255,255,.04); transition: background 160ms; }
 .set-row.completed { background: var(--lime); color: #090a06; }
-.set-number { display: grid; width: 29px; height: 29px; place-items: center; justify-self: center; border-radius: 9px; background: rgba(255,255,255,.05); color: #d3d4cd; font: 650 10px "Geist Mono", monospace; }
+.set-number { display: grid; width: 29px; height: 29px; place-items: center; justify-self: center; border-radius: 9px; background: rgba(255,255,255,.05); color: #d3d4cd; font: 650 10px var(--font-mono); }
 .set-row.completed .set-number { background: rgba(0,0,0,.1); color: #090a06; }
 .set-row.type-warmup:not(.completed) .set-number { color: var(--orange); }
 .set-row.type-drop:not(.completed) .set-number, .set-row.type-failure:not(.completed) .set-number { color: #ff7979; }
 .set-row.type-superset:not(.completed) .set-number { color: #b9a9ff; }
-.previous-set { overflow: hidden; color: var(--muted); font: 500 9px "Geist Mono", monospace; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.previous-set { overflow: hidden; color: var(--muted); font: 500 9px var(--font-mono); text-align: center; text-overflow: ellipsis; white-space: nowrap; }
 .set-row.completed .previous-set { color: rgba(0,0,0,.45); }
-.set-row input { width: 100%; height: 36px; padding: 0 4px; border: 1px solid var(--line); border-radius: 10px; background: #0c0d0b; color: var(--text); font: 700 14px "Geist Mono", monospace; text-align: center; }
+.set-row input { width: 100%; height: 36px; padding: 0 4px; border: 1px solid var(--line); border-radius: 10px; background: #0c0d0b; color: var(--text); font: 700 14px var(--font-mono); text-align: center; }
 .set-row input:focus { border-color: var(--lime); }
 .set-row.completed input { border-color: transparent; background: rgba(0,0,0,.08); color: #090a06; }
 .complete-set { display: grid; width: 34px; height: 34px; place-items: center; justify-self: center; border-radius: 11px; color: #6a6c64; }
@@ -986,16 +986,16 @@ svg {
 .summary-grid svg { color: var(--lime); }
 .summary-grid span, .summary-grid strong { display: block; }
 .summary-grid span { margin: 7px 0 3px; color: var(--muted); font-size: 7px; }
-.summary-grid strong { font: 650 14px "Geist Mono", monospace; }
+.summary-grid strong { font: 650 14px var(--font-mono); }
 .summary-grid small { color: var(--muted); font-size: 7px; }
 .best-set-card { margin-top: 10px; padding: 13px; text-align: left; border: 1px solid rgba(223,255,55,.16); border-radius: 15px; background: rgba(223,255,55,.055); }
 .best-set-card > span { color: var(--lime); font-size: 7px; font-weight: 850; letter-spacing: .13em; }
 .best-set-card > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
 .best-set-card strong { font-size: 10px; }
-.best-set-card b { color: var(--lime); font: 650 11px "Geist Mono", monospace; }
+.best-set-card b { color: var(--lime); font: 650 11px var(--font-mono); }
 .summary-exercises { display: grid; gap: 6px; margin: 14px 0; text-align: left; }
 .summary-exercises > div { display: grid; grid-template-columns: 25px 1fr auto; align-items: center; gap: 8px; padding: 10px; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--surface); }
-.summary-exercises > div > span { color: var(--muted); font: 650 8px "Geist Mono", monospace; }
+.summary-exercises > div > span { color: var(--muted); font: 650 8px var(--font-mono); }
 .summary-exercises strong, .summary-exercises small { display: block; }
 .summary-exercises strong { font-size: 9px; }
 .summary-exercises small { margin-top: 3px; color: var(--muted); font-size: 7px; }
@@ -1043,6 +1043,38 @@ svg {
   .rest-timer-bar { grid-template-columns: auto 1fr auto; }
   .timer-close { display: none; }
   .builder-set-controls { grid-template-columns: 1fr 1fr; }
+}
+
+/* Mobile-first readability: keep control labels compact, but never microscopic. */
+@media (max-width: 680px) {
+  .screen { padding-right: 18px; padding-left: 18px; }
+  .eyebrow, .section-heading > div > span, .profile-hero-card > div:nth-child(2) > span,
+  .install-card span, .settings-group h3, .logger-exercise-title span, .coach-title small { font-size: 10px; }
+  .section-heading button, .section-heading > small, .workout-meta-row, .last-workout-row,
+  .live-metrics span, .rest-timer-bar > div > strong, .day-exercises small, .range-filter button { font-size: 12px; }
+  .metric-card > span, .metric-card > strong small, .coach-insight-card span, .routine-card span,
+  .template-card-head > span, .quick-workout-card span, .sheet-header span, .progress-hero-head span,
+  .profile-hero-card p, .install-card small, .settings-group > button > div { font-size: 11px; }
+  .coach-insight-card strong, .action-card strong, .routine-card strong, .day-exercises strong,
+  .exercise-list-main strong, .builder-exercises article > header strong, .summary-exercises strong { font-size: 14px; }
+  .coach-insight-card p, .action-card small, .routine-card small, .template-card p,
+  .quick-workout-card p, .sheet-intro, .empty-copy, .profile-footer span { font-size: 12px; }
+  .bottom-nav > button span { font-size: 10px; }
+  .form-stack label > span, .builder-meta label > span, .day-builder label > span,
+  .auth-card form > label > span { font-size: 11px; }
+  .form-stack input, .form-stack select, .form-stack textarea, .builder-meta input,
+  .builder-meta select, .day-builder input, .input-shell input, .search-shell input { font-size: 16px; }
+  .primary-button, .secondary-button, .ghost-button, .start-day-button, .quick-workout-card > button,
+  .template-card > button, .finish-top-button, .danger-button, .add-set-button { font-size: 13px; }
+  .message-bubble { font-size: 14px; line-height: 1.6; }
+  .coach-input textarea { min-height: 44px; font-size: 16px; }
+  .coach-suggestions button, .filter-scroll button { padding: 9px 12px; font-size: 11px; }
+  .set-table-head { min-height: 38px; font-size: 9px; }
+  .set-row input { height: 42px; font-size: 16px; }
+  .previous-set, .set-number, .live-metrics strong, .rest-ring span { font-size: 11px; }
+  .exercise-note { min-height: 42px; padding: 11px 12px; font-size: 13px; }
+  .logger-exercise-title h2 { font-size: 20px; }
+  .toast { padding: 15px 16px; font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

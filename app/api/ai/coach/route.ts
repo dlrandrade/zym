@@ -26,12 +26,20 @@ Regras:
 - Termine com uma única ação chamada "Próximo passo".
 - Use formatação Markdown simples, sem tabelas.`;
 
+const defaultModels = [
+  "openai/gpt-oss-20b:free",
+  "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "google/gemma-4-31b-it:free",
+];
+
 function configuredModels() {
-  return [
+  const configured = [
     process.env.OPENROUTER_MODEL_PRIMARY,
     process.env.OPENROUTER_MODEL_FALLBACK_1,
     process.env.OPENROUTER_MODEL_FALLBACK_2,
   ].filter((model): model is string => Boolean(model?.trim()));
+
+  return configured.length > 0 ? Array.from(new Set(configured)) : defaultModels;
 }
 
 function demoAnswer(message: string, context: Record<string, unknown>) {
@@ -76,10 +84,13 @@ export async function POST(request: Request) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   const models = configuredModels();
 
-  if (!apiKey || models.length === 0) {
+  if (!apiKey) {
     if (hasSupabaseConfig()) {
       return NextResponse.json(
-        { error: "A IA ainda não foi configurada." },
+        {
+          error: "A chave da IA não está disponível nesta publicação. Confirme OPENROUTER_API_KEY no ambiente Production da Vercel e faça um novo deploy.",
+          configuration: { hasApiKey: false, models: models.length },
+        },
         { status: 503 },
       );
     }
