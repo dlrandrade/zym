@@ -26,21 +26,14 @@ Regras:
 - Termine com uma única ação chamada "Próximo passo".
 - Use formatação Markdown simples, sem tabelas.`;
 
-const defaultModels = [
+// This is deliberately a closed allowlist. Model names from runtime
+// configuration are not accepted here, so an accidental dashboard value can
+// never route the Coach to a paid model.
+const FREE_MODELS = [
   "openai/gpt-oss-20b:free",
   "nvidia/nemotron-3-ultra-550b-a55b:free",
   "google/gemma-4-31b-it:free",
-];
-
-function configuredModels() {
-  const configured = [
-    process.env.OPENROUTER_MODEL_PRIMARY,
-    process.env.OPENROUTER_MODEL_FALLBACK_1,
-    process.env.OPENROUTER_MODEL_FALLBACK_2,
-  ].filter((model): model is string => Boolean(model?.trim()));
-
-  return configured.length > 0 ? Array.from(new Set(configured)) : defaultModels;
-}
+] as const;
 
 function demoAnswer(message: string, context: Record<string, unknown>) {
   const lower = message.toLowerCase();
@@ -82,7 +75,7 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.OPENROUTER_API_KEY;
-  const models = configuredModels();
+  const models = FREE_MODELS;
 
   if (!apiKey) {
     if (hasSupabaseConfig()) {

@@ -42,9 +42,7 @@ Preencha a chave OpenRouter e os três IDs de modelo. A rota tenta o modelo prim
 
 ```env
 OPENROUTER_API_KEY=...
-OPENROUTER_MODEL_PRIMARY=provider/modelo-1
-OPENROUTER_MODEL_FALLBACK_1=provider/modelo-2
-OPENROUTER_MODEL_FALLBACK_2=provider/modelo-3
+# O Coach usa somente os três modelos gratuitos definidos no código.
 ```
 
 O Coach recebe somente um resumo estruturado do perfil e dos cinco treinos recentes. As mensagens ficam vinculadas ao usuário no Supabase.
