@@ -1308,3 +1308,204 @@ html, body, .zym-app, .app-viewport { background: #000; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Zym type scale — one hierarchy across the complete product. */
+:root {
+  --type-display: clamp(40px, 11vw, 56px);
+  --type-h1: clamp(32px, 8.5vw, 44px);
+  --type-h2: clamp(25px, 6.5vw, 32px);
+  --type-h3: 20px;
+  --type-body: 16px;
+  --type-caption: 14px;
+  --type-label: 12px;
+  --leading-tight: 1.08;
+  --leading-heading: 1.18;
+  --leading-body: 1.55;
+}
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-size: var(--type-body); line-height: var(--leading-body); }
+h1, h2, h3, p { text-wrap: pretty; }
+h1 { font-size: var(--type-h1); line-height: var(--leading-tight); letter-spacing: -.045em; }
+h2 { font-size: var(--type-h2); line-height: var(--leading-heading); letter-spacing: -.035em; }
+h3 { font-size: var(--type-h3); line-height: var(--leading-heading); letter-spacing: -.02em; }
+p { font-size: var(--type-body); line-height: var(--leading-body); }
+small { font-size: var(--type-caption); line-height: 1.45; }
+button, input, select, textarea { font: inherit; }
+
+/* Page and modal hierarchy */
+body .screen-header h1,
+body .auth-card > h1,
+body .onboarding-step > h1 { font-size: var(--type-display); line-height: .98; }
+body .sheet-header h2,
+body .summary-sheet > h2,
+body .logger-summary > div:first-child > strong { font-size: var(--type-h1); }
+body .section-head h2,
+body .quick-workout-card h2,
+body .profile-hero-card h2,
+body .logger-exercise-title h2,
+body .confirm-overlay h2,
+body .center-state h1 { font-size: var(--type-h2); }
+body .template-card h3,
+body .empty-routine h3,
+body .instruction-section h3,
+body .tips-section h3 { font-size: var(--type-h3); }
+
+/* Body copy: never undersized on a phone */
+body .screen-header p,
+body .section-head p,
+body .auth-intro,
+body .onboarding-step > p:not(.eyebrow),
+body .sheet-intro,
+body .confirmation-card p:not(.eyebrow),
+body .center-state p,
+body .template-card p,
+body .empty-routine p,
+body .quick-workout-card p,
+body .settings-info p,
+body .install-steps p,
+body .instruction-section li p,
+body .tips-section p,
+body .safety-copy p,
+body .confirm-overlay p,
+body .message-bubble { font-size: var(--type-body); line-height: var(--leading-body); }
+
+/* Supporting copy and metadata */
+body .week-strip span,
+body .next-workout-meta,
+body .routine-card small,
+body .template-stats,
+body .tag-row span,
+body .plan-facts span,
+body .day-card-header span,
+body .day-exercises strong,
+body .progress-hero-head strong small,
+body .chart-tooltip span,
+body .chart-empty,
+body .progress-metrics article > span,
+body .progress-metrics article > strong small,
+body .muscle-label span,
+body .empty-copy,
+body .pr-list small,
+body .pr-list b small,
+body .profile-hero-card p,
+body .install-card small,
+body .settings-group > button > div,
+body .account-email span,
+body .install-steps p,
+body .zym-note span,
+body .stacked-options span,
+body .day-selector span,
+body .coach-context,
+body .model-label,
+body .coach-disclaimer,
+body .custom-exercise-button small,
+body .exercise-list-main span,
+body .list-empty span,
+body .exercise-facts span,
+body .builder-exercises article > header small,
+body .builder-empty span,
+body .active-routine-toggle small,
+body .sync-label,
+body .live-metrics span,
+body .rest-timer-bar > div > strong,
+body .exercise-note,
+body .summary-date,
+body .summary-grid span,
+body .summary-grid small,
+body .summary-exercises small { font-size: var(--type-caption); line-height: 1.45; }
+
+/* Compact labels: limited to one readable size */
+body .eyebrow,
+body .demo-ribbon,
+body .template-card-head > span,
+body .quick-workout-card > span,
+body .sheet-header > span,
+body .progress-hero-head > span,
+body .trend-badge,
+body .profile-hero-card > div:nth-child(2) > span,
+body .install-card > span,
+body .settings-group h3,
+body .form-stack label > span,
+body .builder-meta label > span,
+body .day-builder label > span,
+body .auth-card form > label > span,
+body .privacy-line,
+body .coach-title small,
+body .exercise-list-main small,
+body .video-shell > span,
+body .builder-set-controls label > span,
+body .logger-summary > div:first-child > span,
+body .rest-timer-bar > div > span,
+body .logger-exercise-title span,
+body .set-table-head,
+body .summary-grid > article > span,
+body .best-set-card > span { font-size: var(--type-label); line-height: 1.3; }
+
+/* Controls stay readable and avoid iOS input zoom */
+body button,
+body input,
+body select,
+body textarea,
+body .primary-button,
+body .secondary-button,
+body .ghost-button,
+body .danger-button,
+body .finish-top-button,
+body .start-day-button,
+body .add-set-button,
+body .discard-button,
+body .add-exercise-builder,
+body .quick-workout-card > button,
+body .template-card > button,
+body .range-filter button,
+body .filter-scroll button,
+body .builder-day-tabs button,
+body .coach-suggestions button,
+body .auth-tabs button { font-size: var(--type-body); line-height: 1.2; }
+
+body .form-stack input,
+body .form-stack select,
+body .form-stack textarea,
+body .builder-meta input,
+body .builder-meta select,
+body .day-builder input,
+body .input-shell input,
+body .coach-input textarea,
+body .search-shell input,
+body .set-row input { font-size: 16px; }
+
+/* Card titles and data */
+body .routine-card strong,
+body .day-card-header strong,
+body .pr-list strong,
+body .install-card strong,
+body .settings-group > button > span,
+body .settings-info span,
+body .account-email strong,
+body .install-preview > strong,
+body .install-steps strong,
+body .zym-note strong,
+body .option-grid button > strong,
+body .stacked-options strong,
+body .coach-title strong,
+body .custom-exercise-button strong,
+body .exercise-list-main strong,
+body .list-empty strong,
+body .builder-exercises article > header strong,
+body .builder-empty strong,
+body .active-routine-toggle strong,
+body .best-set-card strong,
+body .summary-exercises strong { font-size: var(--type-body); line-height: 1.35; }
+
+body .metric-card > strong,
+body .progress-metrics article > strong,
+body .progress-hero-head > strong { font-size: clamp(28px, 7.5vw, 38px); line-height: 1; }
+
+body .bottom-nav > button span,
+body .desktop-rail nav button span { font-size: var(--type-label); font-weight: 700; }
+
+@media (max-width: 390px) {
+  body .metric-card > strong { font-size: 28px; }
+  body .bottom-nav > button span { font-size: var(--type-label); }
+}
