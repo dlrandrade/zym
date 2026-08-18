@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 const id = z.string().min(1).max(100);
 const setType = z.enum(["warmup", "normal", "drop", "failure", "superset"]);
+const maxWorkoutDurationSeconds = 172_800;
 
 const workoutSetSchema = z.object({
   id,
@@ -81,7 +82,10 @@ const mutationSchema = z.discriminatedUnion("op", [
   z.object({
     op: z.literal("finish_workout"),
     workoutId: id,
-    durationSeconds: z.number().int().min(0).max(172800),
+    // A workout may be left open when the app is closed or a device is offline.
+    // Keep it finishable when the athlete returns days later; the database has a
+    // 48-hour integrity cap, so persist the largest duration it accepts.
+    durationSeconds: z.number().int().min(0).transform((value) => Math.min(value, maxWorkoutDurationSeconds)),
     notes: z.string().max(2000).optional().default(""),
   }),
   z.object({ op: z.literal("discard_workout"), workoutId: id }),
