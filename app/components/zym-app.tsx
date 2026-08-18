@@ -109,7 +109,12 @@ function formatDuration(seconds: number) {
 
 function formatTimer(seconds: number) {
   const safe = Math.max(0, seconds);
-  return `${String(Math.floor(safe / 60)).padStart(2, "0")}:${String(safe % 60).padStart(2, "0")}`;
+  const hours = Math.floor(safe / 3600);
+  const minutes = Math.floor((safe % 3600) / 60);
+  const rest = safe % 60;
+  return hours
+    ? `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`
+    : `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
 }
 
 function firstName(name: string) {
@@ -1557,7 +1562,7 @@ function WorkoutLogger({ data, workout, onChange, syncState, setSyncState, onToa
       };
       onFinish(completed);
     } catch {
-      onToast("Não foi possível finalizar porque o treino ainda não sincronizou.");
+      onToast("Não foi possível finalizar agora. Verifique a conexão e tente novamente.");
     } finally {
       setFinishing(false);
     }
