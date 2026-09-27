@@ -273,7 +273,10 @@ export function ZymApp() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/bootstrap", { cache: "no-store" });
+      const response = await fetch("/api/bootstrap", {
+        cache: "no-store",
+        signal: AbortSignal.timeout(12000),
+      });
       if (response.status === 401) {
         setAuthRequired(true);
         setData(null);
@@ -285,7 +288,8 @@ export function ZymApp() {
       setAuthRequired(false);
       setActiveWorkout(payload.activeWorkout ? workoutToDraft(payload.activeWorkout) : null);
     } catch {
-      setToast("Não foi possível conectar. Verifique sua internet.");
+      setData(null);
+      setAuthRequired(false);
     } finally {
       setLoading(false);
     }
@@ -533,8 +537,8 @@ function OfflineState({ onRetry }: { onRetry: () => void }) {
   return (
     <main className="center-state">
       <div className="state-icon"><WifiOff size={25} /></div>
-      <h1>Sem conexão com o Zym</h1>
-      <p>Seus dados continuam seguros. Reconecte-se para carregá-los.</p>
+      <h1>Não foi possível carregar seus treinos</h1>
+      <p>O Zym não conseguiu acessar o banco de dados agora. Seus registros já salvos permanecem na sua conta.</p>
       <button className="primary-button" onClick={onRetry}>Tentar novamente</button>
     </main>
   );
