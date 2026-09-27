@@ -56,7 +56,10 @@ export async function requireSupabaseUser() {
   } = await supabase.auth.getUser();
 
   if (error || !user) {
-    return { supabase, user: null, error: "unauthorized" as const };
+    // Network and upstream failures must not look like an expired login.
+    // Otherwise the client replaces a temporary outage with the sign-in form.
+    const unavailable = error && (error.status === 0 || error.name === "AuthRetryableFetchError");
+    return { supabase, user: null, error: unavailable ? "unavailable" as const : "unauthorized" as const };
   }
 
   return { supabase, user, error: null };
