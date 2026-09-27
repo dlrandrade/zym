@@ -446,8 +446,8 @@ export function ZymApp() {
             <HomeScreen
               data={data}
               onStart={startWorkout}
-              onCoach={() => setCoachOpen(true)}
-              onProgress={() => setTab("progress")}
+              onBuilder={() => setRoutineBuilderOpen(true)}
+              onProfile={() => setTab("profile")}
             />
           )}
           {tab === "workouts" && (
@@ -488,10 +488,6 @@ export function ZymApp() {
           <BottomNav
             tab={tab}
             onTab={setTab}
-            onQuickStart={() => {
-              const source = nextTraining(data);
-              if (source) void startWorkout(source.day, source.name, source.routineId);
-            }}
           />
         </section>
       </main>
@@ -563,35 +559,23 @@ function Toast({ message }: { message: string }) {
   );
 }
 
-function DesktopRail({ tab, onTab, onCoach }: { tab: Tab; onTab: (tab: Tab) => void; onCoach: () => void }) {
-  return (
-    <aside className="desktop-rail">
-      <LogoMark />
-      <nav>
-        <RailButton active={tab === "home"} label="Início" onClick={() => onTab("home")}><Home /></RailButton>
-        <RailButton active={tab === "workouts"} label="Treinos" onClick={() => onTab("workouts")}><Dumbbell /></RailButton>
-        <RailButton active={tab === "progress"} label="Progresso" onClick={() => onTab("progress")}><BarChart3 /></RailButton>
-        <RailButton active={tab === "profile"} label="Perfil" onClick={() => onTab("profile")}><UserRound /></RailButton>
-      </nav>
-      <button className="rail-coach" onClick={onCoach} aria-label="Abrir Zym Coach"><Sparkles size={20} /></button>
-    </aside>
-  );
+function DesktopRail({ tab, onTab }: { tab: Tab; onTab: (tab: Tab) => void; onCoach: () => void }) {
+  return <aside className="desktop-rail"><LogoMark /><nav>
+    <RailButton active={tab === "home"} label="Treinar" onClick={() => onTab("home")}><Dumbbell /></RailButton>
+    <RailButton active={tab === "progress"} label="Histórico" onClick={() => onTab("progress")}><BarChart3 /></RailButton>
+    <RailButton active={tab === "profile"} label="Conta" onClick={() => onTab("profile")}><UserRound /></RailButton>
+  </nav></aside>;
 }
 
 function RailButton({ active, label, onClick, children }: { active: boolean; label: string; onClick: () => void; children: React.ReactNode }) {
   return <button className={active ? "active" : ""} onClick={onClick} aria-label={label}>{children}<span>{label}</span></button>;
 }
 
-function BottomNav({ tab, onTab, onQuickStart }: { tab: Tab; onTab: (tab: Tab) => void; onQuickStart: () => void }) {
-  return (
-    <nav className="bottom-nav" aria-label="Navegação principal">
-      <button className={tab === "home" ? "active" : ""} onClick={() => onTab("home")}><Home /><span>Início</span></button>
-      <button className={tab === "workouts" ? "active" : ""} onClick={() => onTab("workouts")}><Dumbbell /><span>Treinos</span></button>
-      <button className="quick-start" onClick={onQuickStart} aria-label="Iniciar próximo treino"><Play fill="currentColor" /></button>
-      <button className={tab === "progress" ? "active" : ""} onClick={() => onTab("progress")}><BarChart3 /><span>Progresso</span></button>
-      <button className={tab === "profile" ? "active" : ""} onClick={() => onTab("profile")}><UserRound /><span>Perfil</span></button>
-    </nav>
-  );
+function BottomNav({ tab, onTab }: { tab: Tab; onTab: (tab: Tab) => void }) {
+  return <nav className="bottom-nav" aria-label="Navegação principal">
+    <button className={tab === "home" ? "active" : ""} onClick={() => onTab("home")}><Dumbbell /><span>Treinar</span></button>
+    <button className={tab === "progress" ? "active" : ""} onClick={() => onTab("progress")}><BarChart3 /><span>Histórico</span></button>
+  </nav>;
 }
 
 function AuthScreen({ onAuthenticated }: { onAuthenticated: () => Promise<void> }) {
@@ -803,90 +787,18 @@ function AppHeader({ title, subtitle, onCoach }: { title?: string; subtitle?: st
   );
 }
 
-function HomeScreen({ data, onStart, onCoach, onProgress }: { data: BootstrapData; onStart: (day: RoutineDay, name: string, routineId?: string | null) => Promise<void>; onCoach: () => void; onProgress: () => void }) {
+function HomeScreen({ data, onStart, onBuilder, onProfile }: { data: BootstrapData; onStart: (day: RoutineDay, name: string, routineId?: string | null) => Promise<void>; onBuilder: () => void; onProfile: () => void }) {
   const source = nextTraining(data);
-  const days = weekDays();
-  const completedDates = new Set(data.workouts.map((workout) => localDate(new Date(workout.startedAt))));
-  const monday = new Date(days[0].date + "T00:00:00");
-  const weeklyWorkouts = data.workouts.filter((workout) => new Date(workout.startedAt) >= monday);
-  const weeklyVolume = totalVolume(weeklyWorkouts);
-  const weeklyMinutes = Math.round(weeklyWorkouts.reduce((total, workout) => total + workout.durationSeconds, 0) / 60);
-  const lastWorkout = data.workouts[0];
-  const exerciseNames = source?.day.exercises.slice(0, 3).map((item) => findExercise(data, item.exerciseId)?.name).filter(Boolean) ?? [];
-
-  return (
-    <div className="screen home-screen">
-      <AppHeader subtitle={new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long" }).format(new Date())} onCoach={onCoach} />
-
-      <section className="hero-greeting">
-        <p>{greeting()},</p>
-        <h1>{firstName(data.profile.name)}<span>.</span></h1>
-        <div className="streak-pill"><Flame size={15} fill="currentColor" /> {Math.max(3, weeklyWorkouts.length + 3)} semanas em movimento</div>
-      </section>
-
-      <section className="week-strip" aria-label="Semana atual">
-        {days.map((day) => {
-          const done = completedDates.has(day.date);
-          const planned = data.schedule.some((item) => item.date === day.date && !item.completed);
-          return (
-            <div className={`${day.today ? "today" : ""} ${done ? "done" : ""}`} key={day.date}>
-              <span>{day.weekday}</span><strong>{day.day}</strong>
-              <i>{done ? <Check size={10} /> : planned ? "•" : ""}</i>
-            </div>
-          );
-        })}
-      </section>
-
-      {source ? (
-        <section className="next-workout-card">
-          <div className="workout-card-top">
-            <span className="eyebrow"><Zap size={13} fill="currentColor" /> PRÓXIMO TREINO</span>
-            <button aria-label="Mais opções"><MoreHorizontal /></button>
-          </div>
-          <div className="workout-hero-row">
-            <div>
-              <h2>{source.day.name}</h2>
-              <p>{source.name}</p>
-            </div>
-            <div className="workout-orbit" aria-hidden="true"><Dumbbell size={27} /><span /><span /></div>
-          </div>
-          <div className="workout-meta-row">
-            <span><Clock3 size={15} /> {Math.max(35, source.day.exercises.length * 10)} min</span>
-            <span><Dumbbell size={15} /> {source.day.exercises.length} exercícios</span>
-          </div>
-          <div className="exercise-preview-list">
-            {exerciseNames.map((name, index) => <span key={name}>{index + 1}<strong>{name}</strong></span>)}
-            {source.day.exercises.length > 3 && <span className="more-count">+{source.day.exercises.length - 3}</span>}
-          </div>
-          <button className="start-workout-button" onClick={() => void onStart(source.day, source.name, source.routineId)}><Play size={18} fill="currentColor" /> Começar treino</button>
-        </section>
-      ) : (
-        <section className="empty-card"><Dumbbell /><h2>Seu primeiro treino começa aqui</h2><p>Escolha um dos planos padrão ou monte o seu.</p></section>
-      )}
-
-      <section className="section-block">
-        <div className="section-heading"><div><span>ESTA SEMANA</span><h2>Seu ritmo</h2></div><button onClick={onProgress}>Ver detalhes <ChevronRight size={15} /></button></div>
-        <div className="metric-grid">
-          <article className="metric-card accent-metric"><div className="metric-icon"><Activity /></div><span>Treinos</span><strong>{weeklyWorkouts.length}<small> / {data.profile.daysPerWeek}</small></strong><div className="mini-progress"><i style={{ width: `${Math.min(100, weeklyWorkouts.length / data.profile.daysPerWeek * 100)}%` }} /></div></article>
-          <article className="metric-card"><div className="metric-icon"><Dumbbell /></div><span>Volume</span><strong>{weeklyVolume >= 1000 ? `${(weeklyVolume / 1000).toFixed(1)}k` : Math.round(weeklyVolume)}<small> kg</small></strong><small className="metric-delta"><TrendingUp size={12} /> {weeklyVolume ? "registrado" : "comece hoje"}</small></article>
-          <article className="metric-card"><div className="metric-icon"><Clock3 /></div><span>Tempo</span><strong>{weeklyMinutes}<small> min</small></strong><small className="metric-delta">Foco real</small></article>
-        </div>
-      </section>
-
-      <button className="coach-insight-card" onClick={onCoach}>
-        <div className="coach-avatar"><Bot size={21} /><i /></div>
-        <div><span>ZYM COACH</span><strong>{weeklyWorkouts.length >= data.profile.daysPerWeek ? "Meta semanal concluída. Priorize recuperar." : "Seu próximo treino já está pronto."}</strong><p>Use seu histórico para decidir carga, volume e ritmo.</p></div>
-        <ChevronRight />
-      </button>
-
-      {lastWorkout && (
-        <section className="last-workout">
-          <div className="section-heading"><div><span>ÚLTIMA SESSÃO</span><h2>{lastWorkout.name}</h2></div><small>{dateLabel(lastWorkout.startedAt)}</small></div>
-          <div className="last-workout-row"><span><CheckCircle2 /> {completedSets(lastWorkout).length} séries</span><span>{Math.round(workoutVolume(lastWorkout)).toLocaleString("pt-BR")} kg</span><span>{formatDuration(lastWorkout.durationSeconds)}</span></div>
-        </section>
-      )}
-    </div>
-  );
+  return <div className="screen home-screen minimal-screen">
+    <header className="minimal-header"><LogoMark /><button onClick={onProfile} aria-label="Conta"><UserRound /></button></header>
+    <h1>Treinar</h1>
+    {source && <section className="minimal-next"><span>PRÓXIMO TREINO</span><h2>{source.day.name}</h2><p>{source.day.exercises.length} exercícios · {source.name}</p><button className="primary-button" onClick={() => void onStart(source.day, source.name, source.routineId)}>Iniciar treino <ChevronRight /></button></section>}
+    <div className="minimal-section-title"><h2>Meus treinos</h2><button onClick={onBuilder}><Plus /> Criar</button></div>
+    {data.routines.flatMap((routine) => routine.days.map((day) => ({ day, routine }))).map(({ day, routine }) => <button className="minimal-training-row" key={day.id} onClick={() => void onStart(day, routine.name, routine.id)}><span><strong>{day.name}</strong><small>{routine.name} · {day.exercises.length} exercícios</small></span><ChevronRight /></button>)}
+    {!data.routines.length && <p className="minimal-hint">Escolha um treino abaixo ou crie o seu.</p>}
+    <div className="minimal-section-title"><h2>Planos prontos</h2></div>
+    {data.templates.flatMap((template) => template.days.map((day) => ({ day, template }))).map(({ day, template }) => <button className="minimal-training-row" key={day.id} onClick={() => void onStart(day, template.name, null)}><span><strong>{day.name}</strong><small>{template.name} · {day.exercises.length} exercícios</small></span><ChevronRight /></button>)}
+  </div>;
 }
 
 function WorkoutsScreen({ data, onStart, onLibrary, onBuilder, onUseTemplate }: { data: BootstrapData; onStart: (day: RoutineDay, name: string, routineId?: string | null) => Promise<void>; onLibrary: () => void; onBuilder: () => void; onUseTemplate: (template: RoutineTemplate) => Promise<void> }) {
@@ -1070,88 +982,16 @@ function MuscleMap({ values }: { values: Map<string, number> }) {
   );
 }
 
-function ProgressScreen({ data, onExercise }: { data: BootstrapData; onExercise: (exercise: Exercise) => void }) {
-  const [range, setRange] = useState<"30" | "90" | "all">("90");
-  const anchor = Math.max(0, ...data.workouts.map((workout) => new Date(workout.startedAt).getTime()));
-  const cutoff = range === "all" ? 0 : anchor - Number(range) * 86_400_000;
-  const workouts = data.workouts.filter((workout) => new Date(workout.startedAt).getTime() >= cutoff).slice().reverse();
-  const chartData = workouts.map((workout) => ({
-    date: dateLabel(workout.startedAt),
-    volume: Math.round(workoutVolume(workout)),
-  }));
-  const allSets = data.workouts.flatMap((workout) => workout.exercises.flatMap((exercise) => exercise.sets.map((set) => ({ ...set, exerciseId: exercise.exerciseId }))));
-  const prs = Array.from(new Set(allSets.map((set) => set.exerciseId))).map((exerciseId) => {
-    const sets = allSets.filter((set) => set.exerciseId === exerciseId && set.completed);
-    const best = sets.sort((a, b) => b.weight - a.weight)[0];
-    return { exercise: findExercise(data, exerciseId), best };
-  }).filter((item) => item.exercise && item.best).sort((a, b) => (b.best?.weight ?? 0) - (a.best?.weight ?? 0)).slice(0, 4);
-
-  const muscleVolume = new Map<string, number>();
-  workouts.forEach((workout) => workout.exercises.forEach((workoutExercise) => {
-    const exercise = findExercise(data, workoutExercise.exerciseId);
-    if (!exercise) return;
-    const volume = workoutExercise.sets.filter((set) => set.completed).reduce((sum, set) => sum + set.weight * set.reps, 0);
-    muscleVolume.set(exercise.primaryMuscle, (muscleVolume.get(exercise.primaryMuscle) ?? 0) + volume);
-    exercise.secondaryMuscles.forEach((muscle) => {
-      muscleVolume.set(muscle, (muscleVolume.get(muscle) ?? 0) + volume * 0.35);
-    });
-  }));
-  const muscleRows = Array.from(muscleVolume.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  const maxMuscle = Math.max(1, ...muscleRows.map((row) => row[1]));
-  const volume = totalVolume(workouts);
-  const totalSeconds = workouts.reduce((sum, workout) => sum + workout.durationSeconds, 0);
-
-  return (
-    <div className="screen progress-screen">
-      <AppHeader title="Progresso" subtitle="O QUE MELHORA MERECE SER VISTO." />
-      <div className="range-filter">{(["30", "90", "all"] as const).map((value) => <button key={value} className={range === value ? "active" : ""} onClick={() => setRange(value)}>{value === "all" ? "Tudo" : `${value} dias`}</button>)}</div>
-
-      <section className="progress-hero">
-        <div className="progress-hero-head"><div><span>VOLUME MOVIMENTADO</span><strong>{volume >= 1000 ? `${(volume / 1000).toFixed(1)} mil` : volume.toLocaleString("pt-BR")} <small>kg</small></strong></div><div className="trend-badge"><TrendingUp /> constância</div></div>
-        <div className="chart-wrap">
-          {chartData.length > 1 ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData} margin={{ top: 12, right: 8, left: -24, bottom: 0 }}>
-                <defs><linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#dfff37" stopOpacity={0.42} /><stop offset="100%" stopColor="#dfff37" stopOpacity={0} /></linearGradient></defs>
-                <CartesianGrid stroke="#2a2a2a" vertical={false} strokeDasharray="3 6" />
-                <XAxis dataKey="date" stroke="#747474" tickLine={false} axisLine={false} fontSize={11} interval="preserveStartEnd" />
-                <YAxis stroke="#747474" tickLine={false} axisLine={false} fontSize={10} width={50} tickFormatter={(value) => value >= 1000 ? `${Math.round(value / 1000)}k` : value} />
-                <Tooltip content={<ChartTooltip />} />
-                <Area type="monotone" dataKey="volume" stroke="#dfff37" strokeWidth={2.6} fill="url(#volumeGradient)" dot={{ r: 3, fill: "#0b0b0b", stroke: "#dfff37", strokeWidth: 2 }} activeDot={{ r: 5, fill: "#dfff37" }} />
-              </AreaChart>
-            </ResponsiveContainer>
-          ) : <div className="chart-empty"><BarChart3 /><span>Conclua mais um treino para ver a curva.</span></div>}
-        </div>
-      </section>
-
-      <section className="progress-metrics">
-        <article><div><Dumbbell /></div><span>Treinos</span><strong>{workouts.length}</strong></article>
-        <article><div><Clock3 /></div><span>Tempo</span><strong>{formatDuration(totalSeconds)}</strong></article>
-        <article><div><Flame /></div><span>Frequência</span><strong>{workouts.length ? `${(workouts.length / Math.max(1, Number(range === "all" ? 90 : range) / 7)).toFixed(1)}x` : "0x"}<small>/sem</small></strong></article>
-      </section>
-
-      <section className="section-block muscle-section">
-        <div className="section-heading"><div><span>MAPA MUSCULAR</span><h2>Músculos treinados</h2></div><small>{workouts.length ? `${workouts.length} sessões` : "Sem dados"}</small></div>
-        <div className="muscle-map-card">
-          <MuscleMap values={muscleVolume} />
-          <div className="muscle-list">
-            {muscleRows.length ? muscleRows.map(([muscle, value], index) => (
-              <div key={muscle}><div className="muscle-label"><span>{muscle}</span><strong>{Math.round(value).toLocaleString("pt-BR")} kg</strong></div><div className="muscle-bar"><i style={{ width: `${Math.max(8, value / maxMuscle * 100)}%`, opacity: 1 - index * 0.12 }} /></div></div>
-            )) : <p className="empty-copy">Conclua um treino para iluminar os músculos trabalhados.</p>}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="section-heading"><div><span>MELHORES MARCAS</span><h2>Recordes pessoais</h2></div><Trophy size={20} /></div>
-        <div className="pr-list">
-          {prs.map(({ exercise, best }, index) => exercise && best ? (
-            <button key={exercise.id} onClick={() => onExercise(exercise)}><span className="pr-rank">{String(index + 1).padStart(2, "0")}</span><div><strong>{exercise.name}</strong><small>{best.reps} repetições</small></div><b>{best.weight}<small> kg</small></b><ChevronRight /></button>
-          ) : null)}
-        </div>
-      </section>
-    </div>
-  );
+function ProgressScreen({ data }: { data: BootstrapData; onExercise: (exercise: Exercise) => void }) {
+  const workouts = data.workouts;
+  const totalSets = workouts.reduce((count, workout) => count + completedSets(workout).length, 0);
+  return <div className="screen progress-screen minimal-screen">
+    <header className="minimal-header"><LogoMark /></header>
+    <h1>Histórico</h1>
+    <div className="minimal-totals"><div><strong>{workouts.length}</strong><span>treinos</span></div><div><strong>{totalSets}</strong><span>séries</span></div></div>
+    <h2 className="minimal-history-title">Treinos concluídos</h2>
+    {workouts.length ? workouts.map((workout) => <article className="minimal-history-row" key={workout.id}><span>{dateLabel(workout.startedAt)}</span><h3>{workout.name}</h3><p>{completedSets(workout).length} séries · {Math.round(workoutVolume(workout)).toLocaleString("pt-BR")} kg · {formatDuration(workout.durationSeconds)}</p><div>{workout.exercises.map((item) => <span key={item.id}>{findExercise(data, item.exerciseId)?.name}: {item.sets.filter((set) => set.completed).map((set) => `${set.weight} kg × ${set.reps}`).join(", ")}</span>)}</div></article>) : <p className="minimal-hint">Seu primeiro treino concluído aparecerá aqui.</p>}
+  </div>;
 }
 
 function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
@@ -1159,54 +999,20 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
   return <div className="chart-tooltip"><span>{label}</span><strong>{payload[0].value.toLocaleString("pt-BR")} kg</strong></div>;
 }
 
-function ProfileScreen({ data, onSave, onCoach, onLogout }: { data: BootstrapData; onSave: (profile: Profile) => Promise<void>; onCoach: () => void; onLogout: () => Promise<void> }) {
+function ProfileScreen({ data, onSave, onLogout }: { data: BootstrapData; onSave: (profile: Profile) => Promise<void>; onCoach: () => void; onLogout: () => Promise<void> }) {
   const [editing, setEditing] = useState(false);
   const [installOpen, setInstallOpen] = useState(false);
   const [busy, setBusy] = useState(false);
-  const initials = data.profile.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
-
-  return (
-    <div className="screen profile-screen">
-      <AppHeader title="Perfil" subtitle="SEU ZYM, SUAS REGRAS." onCoach={onCoach} />
-      <section className="profile-hero-card">
-        <div className="profile-avatar">{initials}<span /></div>
-        <div><span>{data.profile.level.toUpperCase()}</span><h2>{data.profile.name}</h2><p>{goalLabels[data.profile.goal]} · {data.profile.daysPerWeek}x por semana</p></div>
-        <button className="icon-button" onClick={() => setEditing(true)} aria-label="Editar perfil"><Pencil size={17} /></button>
-      </section>
-
-      <button className="install-card" onClick={() => setInstallOpen(true)}>
-        <div className="install-icon"><LogoMark /></div>
-        <div><span>APP NO IPHONE</span><strong>Instalar Zym na Tela de Início</strong><small>Abre em tela cheia e fica com ícone próprio.</small></div>
-        <ChevronRight />
-      </button>
-
-      <section className="settings-group">
-        <h3>Treino</h3>
-        <button onClick={() => setEditing(true)}><span><Dumbbell /> Objetivo</span><div>{goalLabels[data.profile.goal]} <ChevronRight /></div></button>
-        <button onClick={() => setEditing(true)}><span><CalendarDays /> Frequência semanal</span><div>{data.profile.daysPerWeek} dias <ChevronRight /></div></button>
-        <button onClick={() => setEditing(true)}><span><Timer /> Descanso padrão</span><div>{formatTimer(data.profile.defaultRestSeconds)} <ChevronRight /></div></button>
-        <button onClick={() => setEditing(true)}><span><Settings2 /> Unidade de carga</span><div>{data.profile.unit} <ChevronRight /></div></button>
-      </section>
-
-      <section className="settings-group">
-        <h3>Inteligência e dados</h3>
-        <button onClick={onCoach}><span><Sparkles /> Zym Coach</span><div>Ativo <ChevronRight /></div></button>
-        <div className="settings-info"><span><ShieldCheck /> Dados na nuvem</span><p>Treinos, rotinas e progresso são gravados no Supabase. O navegador não é usado como banco de dados.</p></div>
-        <div className="settings-info"><span><Info /> Integrações Apple</span><p>HealthKit e Apple Watch exigem um app nativo. A PWA mantém o foco no registro de treino sem prometer uma integração que o Safari não oferece.</p></div>
-      </section>
-
-      <section className="settings-group">
-        <h3>Conta</h3>
-        <div className="account-email"><Mail /> <div><span>E-mail</span><strong>{data.user.email}</strong></div></div>
-        {data.mode === "connected" && <button className="logout-button" onClick={() => { setBusy(true); void onLogout().finally(() => setBusy(false)); }} disabled={busy}><LogOut /> {busy ? "Saindo…" : "Sair do Zym"}</button>}
-      </section>
-
-      <footer className="profile-footer"><LogoMark /><span>Zym · versão 1.0</span></footer>
-
-      {editing && <ProfileEditor profile={data.profile} onClose={() => setEditing(false)} onSave={async (profile) => { await onSave(profile); setEditing(false); }} />}
-      {installOpen && <InstallSheet onClose={() => setInstallOpen(false)} />}
-    </div>
-  );
+  return <div className="screen profile-screen minimal-screen">
+    <header className="minimal-header"><LogoMark /></header>
+    <h1>Conta</h1>
+    <div className="minimal-account"><strong>{data.profile.name}</strong><span>{data.user.email}</span></div>
+    <button className="minimal-training-row" onClick={() => setEditing(true)}><span><strong>Preferências de treino</strong><small>Unidade de carga e descanso</small></span><ChevronRight /></button>
+    <button className="minimal-training-row" onClick={() => setInstallOpen(true)}><span><strong>Instalar no iPhone</strong><small>Adicionar à Tela de Início</small></span><ChevronRight /></button>
+    {data.mode === "connected" && <button className="minimal-logout" disabled={busy} onClick={() => { setBusy(true); void onLogout().finally(() => setBusy(false)); }}>{busy ? "Saindo…" : "Sair"}</button>}
+    {editing && <ProfileEditor profile={data.profile} onClose={() => setEditing(false)} onSave={async (profile) => { await onSave(profile); setEditing(false); }} />}
+    {installOpen && <InstallSheet onClose={() => setInstallOpen(false)} />}
+  </div>;
 }
 
 function ProfileEditor({ profile, onClose, onSave }: { profile: Profile; onClose: () => void; onSave: (profile: Profile) => Promise<void> }) {
@@ -1585,7 +1391,7 @@ function WorkoutLogger({ data, workout, onChange, syncState, setSyncState, onToa
       {restRemaining > 0 && (
         <div className="rest-timer-bar">
           <button className="rest-ring" style={{ background: `conic-gradient(#dfff37 ${progress}%, #353535 ${progress}% 100%)` }} onClick={() => setRestRemaining(0)} aria-label="Encerrar descanso"><span>{formatTimer(restRemaining)}</span></button>
-          <div><span>DESCANSO</span><strong>{restRemaining > 15 ? "Respire. A próxima série vem limpa." : "Prepare-se para a próxima série."}</strong></div>
+          <div><strong>Descanso</strong></div>
           <button onClick={() => { setRestRemaining((value) => value + 30); setRestTotal((value) => value + 30); }}>+30s</button>
           <button className="timer-close" onClick={() => setRestRemaining(0)} aria-label="Fechar"><X /></button>
         </div>
@@ -1599,7 +1405,6 @@ function WorkoutLogger({ data, workout, onChange, syncState, setSyncState, onToa
             <article className="logger-exercise" key={workoutExercise.id}>
               <header>
                 <button className="logger-exercise-title" onClick={() => onExercise(exercise)}><ExerciseDemo type={exercise.demoType} compact /><div><span>{String(exerciseIndex + 1).padStart(2, "0")} · {exercise.primaryMuscle.toUpperCase()}</span><h2>{exercise.name}</h2></div><ChevronRight /></button>
-                <button className="icon-button" aria-label="Opções"><MoreHorizontal /></button>
               </header>
               <textarea className="exercise-note" placeholder="Adicionar nota para este exercício…" value={workoutExercise.notes ?? ""} onChange={(event) => onChange({ ...workout, exercises: workout.exercises.map((item) => item.id === workoutExercise.id ? { ...item, notes: event.target.value } : item) })} onBlur={async (event) => { const updatedExercise = { ...workoutExercise, notes: event.target.value }; try { setSyncState("saving"); await apiMutation({ op: "save_workout_exercise", workoutId: workout.id, exercise: updatedExercise }); setSyncState("saved"); } catch { setSyncState("error"); } }} />
               <div className="set-table">
