@@ -1509,3 +1509,50 @@ body .desktop-rail nav button span { font-size: var(--type-label); font-weight: 
   body .metric-card > strong { font-size: 28px; }
   body .bottom-nav > button span { font-size: var(--type-label); }
 }
+
+/* Zym: one task per screen, with the workout as the primary surface. */
+.zym-app { background: #000; }
+.ambient { display: none; }
+.zym-shell { max-width: 960px; margin: auto; }
+.app-viewport { background: #000; }
+.minimal-screen { max-width: 720px; margin: 0 auto; }
+.minimal-header { display: flex; align-items: center; justify-content: space-between; min-height: 44px; margin-bottom: 30px; }
+.minimal-header button { display: grid; place-items: center; width: 44px; height: 44px; color: #aaa; font-size: 23px; }
+.minimal-screen h1 { margin: 0 0 30px; font-size: clamp(32px, 8vw, 40px); line-height: 1.1; font-weight: 680; letter-spacing: -.045em; }
+.minimal-next { padding: 25px 22px 22px; margin-bottom: 38px; border: 1px solid #303030; border-radius: 18px; background: #171717; }
+.minimal-next > span { color: #aaa; font-size: 14px; font-weight: 650; letter-spacing: .04em; }
+.minimal-next h2 { margin: 16px 0 5px; font-size: 26px; line-height: 1.2; letter-spacing: -.025em; }
+.minimal-next p { margin: 0 0 23px; color: #aaa; font-size: 16px; }
+.minimal-next .primary-button { display: flex; width: 100%; min-height: 54px; align-items: center; justify-content: center; gap: 10px; border-radius: 12px; background: #f7f7f7; color: #090909; font-size: 16px; font-weight: 700; }
+.minimal-section-title { display: flex; align-items: center; justify-content: space-between; margin: 28px 0 10px; }
+.minimal-section-title h2, .minimal-history-title { margin: 0; font-size: 20px; line-height: 1.25; letter-spacing: -.02em; }
+.minimal-section-title button { display: flex; align-items: center; gap: 6px; min-height: 44px; color: #eee; font-size: 16px; }
+.minimal-training-row { display: flex; width: 100%; min-height: 78px; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 2px; border-bottom: 1px solid #292929; text-align: left; }
+.minimal-training-row > span { display: grid; gap: 5px; }
+.minimal-training-row strong { font-size: 17px; font-weight: 600; }
+.minimal-training-row small, .minimal-hint { color: #aaa; font-size: 14px; line-height: 1.45; }
+.minimal-training-row > svg { flex: none; color: #888; font-size: 20px; }
+.minimal-totals { display: flex; gap: 45px; padding: 0 0 30px; margin-bottom: 27px; border-bottom: 1px solid #303030; }
+.minimal-totals div { display: grid; gap: 3px; }
+.minimal-totals strong { font-size: 32px; font-weight: 650; }
+.minimal-totals span { color: #aaa; font-size: 14px; }
+.minimal-history-row { padding: 22px 0; border-bottom: 1px solid #292929; }
+.minimal-history-row > span { color: #aaa; font-size: 14px; }
+.minimal-history-row h3 { margin: 8px 0; font-size: 20px; }
+.minimal-history-row p { margin: 0; color: #ccc; font-size: 15px; }
+.minimal-history-row > div { display: grid; gap: 6px; margin-top: 13px; color: #aaa; font-size: 14px; }
+.bottom-nav { display: grid; grid-template-columns: 1fr 1fr; max-width: 720px; }
+.bottom-nav > button:not(.quick-start) { min-height: 60px; color: #999; }
+.bottom-nav > button.active { color: #fff; }
+.bottom-nav > button span, body .bottom-nav > button span { font-size: 14px; }
+.logger-exercise { border-radius: 14px; }
+.logger-exercise > header > .icon-button, .exercise-note { display: none; }
+.set-table-head { font-size: 12px; letter-spacing: 0; }
+.set-row { min-height: 58px; }
+.set-row input { min-height: 44px; font-size: 16px; }
+.logger-summary .live-metrics { display: none; }
+@media (min-width: 900px) { .minimal-screen { min-height: 100dvh; } }
+.minimal-account { display: grid; gap: 5px; padding: 4px 0 24px; margin-bottom: 12px; border-bottom: 1px solid #292929; }
+.minimal-account strong { font-size: 20px; }
+.minimal-account span { color: #aaa; font-size: 15px; overflow-wrap: anywhere; }
+.minimal-logout { min-height: 48px; margin-top: 30px; color: #ccc; font-size: 16px; }
