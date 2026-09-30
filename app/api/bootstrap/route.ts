@@ -30,9 +30,10 @@ export async function GET() {
   const { supabase, user, error: authError } = await requireSupabaseUser();
 
   if (authError || !supabase || !user) {
+    const unavailable = authError === "unavailable";
     return NextResponse.json(
-      { error: "unauthorized", configured: true },
-      { status: 401, headers: { "Cache-Control": "no-store" } },
+      { error: unavailable ? "database_unavailable" : "unauthorized", configured: true },
+      { status: unavailable ? 503 : 401, headers: { "Cache-Control": "no-store" } },
     );
   }
 
